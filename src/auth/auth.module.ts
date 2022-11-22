@@ -14,17 +14,18 @@ import { JwtStrategy } from './strategies/jwt.strategy';
             {
                 typegooseClass: UserModel,
                 schemaOptions: {
-                    collection: 'User'
-                }
+                    collection: 'User',
+                },
             },
-
-        ]), ConfigModule, JwtModule.registerAsync({
+        ]),
+        ConfigModule,
+        JwtModule.registerAsync({
             imports: [ConfigModule],
 
             inject: [ConfigService],
-            useFactory: getJWTConfig
-        })
+            useFactory: getJWTConfig,
+        }),
     ],
-    controllers: [AuthController]
+    controllers: [AuthController],
 })
 export class AuthModule { }

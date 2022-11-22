@@ -9,11 +9,11 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
 
-    constructor(private readonly ConfigService: ConfigService, @InjectModel(UserModel) private readonly UserModel: ModelType<UserModel>) {
+    constructor(private readonly configService: ConfigService, @InjectModel(UserModel) private readonly UserModel: ModelType<UserModel>) {
         super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken,
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: true,
-            secretOrKey: ConfigService.get('JWT_SECRET')
+            secretOrKey: configService.get('JWT_SECRET')
         })
     }
 
