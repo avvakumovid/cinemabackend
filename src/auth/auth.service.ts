@@ -47,7 +47,6 @@ export class AuthService {
     async register(dto: AuthDto) {
 
         const oldUser = await this.UserModel.findOne({ email: dto.email })
-
         if (oldUser) {
             throw new BadRequestException("User with this email is already in the system")
         }
@@ -62,7 +61,7 @@ export class AuthService {
         const tokens = await this.issueTokenPair(String(newUser._id))
 
 
-
+        await newUser.save()
 
         return {
             user: this.returnUserFields(newUser),
@@ -83,7 +82,7 @@ export class AuthService {
     }
 
     async issueTokenPair(userId: string) {
-       
+
         const data = { _id: userId }
 
         const refreshToken = await this.JwtService.signAsync(data, { expiresIn: '15d' })

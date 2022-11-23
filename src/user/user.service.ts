@@ -4,6 +4,7 @@ import { UserModel } from './user.model';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { UpdateUserDro } from './dto/update-user.dto';
 import { genSalt, hash } from 'bcryptjs';
+import { exec } from 'child_process';
 
 @Injectable()
 export class UserService {
@@ -35,4 +36,28 @@ export class UserService {
         await user.save()
         return
     }
-}
+
+    async getCount() {
+        return await this.UserModel.find().count().exec()
+    }
+
+    async getAll(searchTerm?: string) {
+        let options = {}
+
+        if (searchTerm) {
+            options = {
+                $or: [
+                    {
+                        email: RegExp(searchTerm, 'i')
+                    }
+                ]
+            }
+        }
+        return await this.UserModel.find(options).select('-password -updatedAt -__v').sort({ createdAt: 'desc' }).exec()
+
+    }
+
+    async delete(_id: string) {
+        return await this.UserModel.findByIdAndDelete(_id).exec()
+    }
+} 
