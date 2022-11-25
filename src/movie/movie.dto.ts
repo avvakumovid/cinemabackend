@@ -21,7 +21,6 @@ export class MovieDto {
     @IsString()
     title: string
 
-
     @IsString()
     slug: string
 
