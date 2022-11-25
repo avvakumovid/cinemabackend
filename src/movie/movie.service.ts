@@ -73,6 +73,20 @@ export class MovieService {
         return await this.MovieModel.find({ countOpened: { $gt: 0 } }).populate('genres').sort({ countOpened: -1 }).exec()
     }
 
+
+    async updateRating(id: string, newRating: number) {
+        this.MovieModel.findByIdAndUpdate(id,
+            {
+                rating: newRating
+            },
+            {
+                new: true
+            }
+        ).exec()
+
+    }
+
+
     /* Admin Place */
 
     async byId(_id: string) {

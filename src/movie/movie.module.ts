@@ -15,6 +15,7 @@ import { MovieModel } from './movie.model';
         collection: 'Movie'
       }
     }])
-  ]
+  ],
+  exports: [MovieService]
 })
 export class MovieModule { }
